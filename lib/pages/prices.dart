@@ -1,20 +1,45 @@
+import 'package:coindcxclone/pages/tabs/all_coins.dart';
 import 'package:coindcxclone/pages/tabs/watchlist.dart';
-import 'package:coindcxclone/widgets/display_coin.dart';
+import 'package:coindcxclone/utils/models/coin.dart';
+import 'package:coindcxclone/utils/models/coin_data.dart';
 import 'package:coindcxclone/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-class PricesPage extends StatelessWidget {
+class PricesPage extends StatefulWidget {
   const PricesPage({Key? key}) : super(key: key);
 
   @override
+  State<PricesPage> createState() => _PricesPageState();
+}
+
+class _PricesPageState extends State<PricesPage> with WidgetsBindingObserver {
+  bool darkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    super.didChangePlatformBrightness();
+    setState(() {
+      darkMode =
+          WidgetsBinding.instance?.window.platformBrightness == Brightness.dark;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<DisplayCoin> coins = List.generate(20, (index) {
-      return const DisplayCoin(
-          name: "Avalanche",
-          tag: "AVAX",
-          icon: "assets/images/avax.png",
-          price: 5411.37,
-          gain: 7.78);
+    List<Coin> coins = List.generate(20, (index) {
+      return CoinData.coins[0];
     });
     return DefaultTabController(
       length: 2,
@@ -35,14 +60,38 @@ class PricesPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: SizedBox(
-                  height: 80,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        image: AssetImage("assets/images/prices_header.jpeg"),
+                padding: const EdgeInsets.all(10.0),
+                child: InkWell(
+                  onTap: () {
+                    // Will do it later.
+                  },
+                  child: SizedBox(
+                    height: 50,
+                    child: Container(
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            "Search coins to invest...",
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        color: (darkMode) ? null : const Color(0xfff5f5f5),
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                   ),
@@ -68,7 +117,7 @@ class PricesPage extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       UserWatchList(coins: coins),
-                      const Center(child: Text("All Coins!")),
+                      AllCoins(coins: coins),
                     ],
                   ),
                 ),

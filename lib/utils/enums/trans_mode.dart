@@ -1,0 +1,1 @@
+enum TransactionMode { buy, sell }

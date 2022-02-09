@@ -1,24 +1,15 @@
-import 'package:coindcxclone/utils/theme.dart';
+import 'package:coindcxclone/utils/models/coin.dart';
 import 'package:flutter/material.dart';
 
 class CoinCard extends StatelessWidget {
-  final String icon;
-  final String name;
-  final num price;
-  final num gain;
+  final Coin coin;
 
-  const CoinCard(
-      {Key? key,
-      required this.icon,
-      required this.name,
-      required this.price,
-      required this.gain})
-      : super(key: key);
+  const CoinCard({Key? key, required this.coin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String gainSign = (gain > 0) ? "+" : "-";
-    Color gainColor = (gain > 0) ? Colors.green : Colors.red;
+    String gainSign = (coin.gain > 0) ? "+" : "-";
+    Color gainColor = (coin.gain > 0) ? Colors.green : Colors.red;
     return SizedBox(
       height: 180,
       width: 150,
@@ -38,7 +29,7 @@ class CoinCard extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(icon),
+                        image: AssetImage(coin.icon),
                         fit: BoxFit.fitHeight,
                       ),
                     ),
@@ -48,7 +39,7 @@ class CoinCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  name,
+                  coin.name,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -58,7 +49,7 @@ class CoinCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  "₹$price",
+                  "₹${coin.price}",
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -67,7 +58,7 @@ class CoinCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  "$gainSign$gain%",
+                  "$gainSign${coin.gain.abs()}%",
                   style: TextStyle(
                     fontSize: 22,
                     color: gainColor,

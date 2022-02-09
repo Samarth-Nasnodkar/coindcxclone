@@ -1,3 +1,4 @@
+import 'package:coindcxclone/utils/models/coin_data.dart';
 import 'package:coindcxclone/widgets/coin_card.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +8,9 @@ class NewlyLaunched extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<CoinCard> coins = List.generate(10, (index) {
-      return const CoinCard(
-          icon: "assets/images/avax.png",
-          name: "Avalanche",
-          price: 5801.14,
-          gain: 4.34);
+      return CoinCard(
+        coin: CoinData.coins[0],
+      );
     });
     return Padding(
       padding: const EdgeInsets.only(left: 10),

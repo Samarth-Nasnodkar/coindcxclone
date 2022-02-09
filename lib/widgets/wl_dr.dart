@@ -1,8 +1,8 @@
-import 'package:coindcxclone/widgets/display_coin.dart';
+import 'package:coindcxclone/utils/models/coin.dart';
 import 'package:flutter/material.dart';
 
 class WLDataRowCoin extends StatelessWidget {
-  final DisplayCoin coin;
+  final Coin coin;
   const WLDataRowCoin({Key? key, required this.coin}) : super(key: key);
 
   @override

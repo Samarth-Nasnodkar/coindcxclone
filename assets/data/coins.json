@@ -1,0 +1,12 @@
+{
+  "coins": [
+    {
+      "name": "Doge",
+      "tag": "DOGE",
+      "icon": "assets/images/doge.png",
+      "price": 12.44,
+      "gain": 0.41,
+      "top": "30 Jan '22, 12:51 PM"
+    }
+  ]
+}
