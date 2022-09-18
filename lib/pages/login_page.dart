@@ -96,7 +96,10 @@ class _LoginPageState extends State<LoginPage> {
               height: 50.0,
             ),
             GestureDetector(
-              onTap: logIn,
+              onTap: () async {
+                await logIn();
+                Navigator.pushReplacementNamed(context, 'home');
+              },
               child: Center(
                 child: Container(
                   height: 70,

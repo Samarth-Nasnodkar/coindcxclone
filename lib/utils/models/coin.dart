@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Coin {
-  final String name, tag, icon, top;
+  final String name, tag, icon;
+  final DateTime top;
   final num price, gain;
   const Coin(
       {required this.top,
@@ -9,14 +12,14 @@ class Coin {
       required this.price,
       required this.gain});
 
-  factory Coin.fromMap(Map<String, dynamic> data) {
+  static Coin fromMap(Map<String, dynamic> data) {
     return Coin(
       name: data["name"],
       tag: data["tag"],
       icon: data["icon"],
       price: data["price"],
       gain: data["gain"],
-      top: data["top"],
+      top: (data["top"] as Timestamp).toDate(),
     );
   }
 }

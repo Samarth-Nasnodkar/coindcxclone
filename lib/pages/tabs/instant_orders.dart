@@ -1,6 +1,7 @@
 import 'package:coindcxclone/utils/enums/trans_mode.dart';
 import 'package:coindcxclone/utils/models/order.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class InstantOrders extends StatelessWidget {
   final List<Order> orders;
@@ -56,7 +57,7 @@ class InstantOrders extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        order.coin.top,
+                        '${DateFormat.yMMMd().format(order.coin.top)}, ${DateFormat.jm().format(order.coin.top)}',
                         style: TextStyle(
                           color: Theme.of(context).textTheme.caption?.color,
                         ),
