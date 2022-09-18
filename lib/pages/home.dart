@@ -30,7 +30,9 @@ class _HomePageState extends State<HomePage> {
     var _data = await rootBundle.loadString("assets/data/coins.json");
     var _ddata = jsonDecode(_data);
     var _coins = _ddata["coins"];
-    CoinData.coins = List.generate(10, (index) => Coin.fromMap(_coins[0]));
+    var l = _coins.length;
+    CoinData.coins =
+        List.generate(l, (index) => Coin.fromMap(_coins[index % l]));
     setState(() {});
   }
 

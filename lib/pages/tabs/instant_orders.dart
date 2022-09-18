@@ -28,7 +28,7 @@ class InstantOrders extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 100.0),
+                  padding: const EdgeInsets.only(right: 80.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

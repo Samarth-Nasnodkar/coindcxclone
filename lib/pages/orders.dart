@@ -1,6 +1,5 @@
 import 'package:coindcxclone/pages/tabs/instant_orders.dart';
 import 'package:coindcxclone/utils/enums/trans_mode.dart';
-// import 'package:coindcxclone/utils/models/coin.dart';
 import 'package:coindcxclone/utils/models/coin_data.dart';
 import 'package:coindcxclone/utils/models/order.dart';
 import 'package:coindcxclone/widgets/navigation_bar.dart';

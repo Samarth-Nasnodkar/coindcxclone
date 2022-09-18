@@ -7,7 +7,7 @@ class DefaultNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> labels = ["home", "prices", "orders", "invest", "account"];
+    List<String> labels = ["home", "prices", "orders", "inv", "acc"];
     return BottomNavigationBar(
       currentIndex: currentIndex,
       type: BottomNavigationBarType.fixed,

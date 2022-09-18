@@ -18,13 +18,13 @@ class _PricesPageState extends State<PricesPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -32,14 +32,14 @@ class _PricesPageState extends State<PricesPage> with WidgetsBindingObserver {
     super.didChangePlatformBrightness();
     setState(() {
       darkMode =
-          WidgetsBinding.instance?.window.platformBrightness == Brightness.dark;
+          WidgetsBinding.instance.window.platformBrightness == Brightness.dark;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Coin> coins = List.generate(20, (index) {
-      return CoinData.coins[0];
+    List<Coin> coins = List.generate(CoinData.coins.length, (index) {
+      return CoinData.coins[index];
     });
     return DefaultTabController(
       length: 2,

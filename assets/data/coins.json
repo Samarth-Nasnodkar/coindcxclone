@@ -4,8 +4,24 @@
       "name": "Doge",
       "tag": "DOGE",
       "icon": "assets/images/doge.png",
-      "price": 12.44,
+      "price": 20.5,
       "gain": 0.41,
+      "top": "30 Jan '22, 12:51 PM"
+    },
+    {
+      "name": "Shiba Inu",
+      "tag": "SHIB",
+      "icon": "assets/images/shib.png",
+      "price": 0.04,
+      "gain": 0.3,
+      "top": "30 Jan '22, 12:51 PM"
+    },
+    {
+      "name": "Avalanche",
+      "tag": "AVAX",
+      "icon": "assets/images/avax.png",
+      "price": 1052,
+      "gain": 1.3,
       "top": "30 Jan '22, 12:51 PM"
     }
   ]
