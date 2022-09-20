@@ -4,13 +4,16 @@ class Coin {
   final String name, tag, icon;
   final DateTime top;
   final num price, gain;
-  const Coin(
-      {required this.top,
-      required this.name,
-      required this.tag,
-      required this.icon,
-      required this.price,
-      required this.gain});
+  final List<dynamic> prices;
+  const Coin({
+    required this.top,
+    required this.name,
+    required this.tag,
+    required this.icon,
+    required this.price,
+    required this.gain,
+    required this.prices,
+  });
 
   static Coin fromMap(Map<String, dynamic> data) {
     return Coin(
@@ -20,6 +23,14 @@ class Coin {
       price: data["price"],
       gain: data["gain"],
       top: (data["top"] as Timestamp).toDate(),
+      prices: data["prices"]
+          .map(
+            (e) => {
+              'ts': e['ts'],
+              'price': e['price'],
+            },
+          )
+          .toList(),
     );
   }
 }

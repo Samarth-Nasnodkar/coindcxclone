@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coindcxclone/pages/tabs/all_coins.dart';
 import 'package:coindcxclone/pages/tabs/watchlist.dart';
 import 'package:coindcxclone/utils/models/coin.dart';
@@ -36,11 +37,11 @@ class _PricesPageState extends State<PricesPage> with WidgetsBindingObserver {
     });
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> readCoins() =>
+      FirebaseFirestore.instance.collection('coins').snapshots();
+
   @override
   Widget build(BuildContext context) {
-    List<Coin> coins = List.generate(CoinData.coins.length, (index) {
-      return CoinData.coins[index];
-    });
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -114,11 +115,29 @@ class _PricesPageState extends State<PricesPage> with WidgetsBindingObserver {
               Expanded(
                 child: SizedBox(
                   // height: 500,
-                  child: TabBarView(
-                    children: [
-                      UserWatchList(coins: coins),
-                      AllCoins(coins: coins),
-                    ],
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: readCoins(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                        );
+                      }
+                      final coins = snapshot.data!.docs
+                          .map((e) => Coin.fromMap(e.data()))
+                          .toList();
+                      // List<Coin> coins = __coins;
+                      return TabBarView(
+                        children: [
+                          UserWatchList(coins: coins),
+                          AllCoins(coins: coins),
+                        ],
+                      );
+                    },
                   ),
                 ),
               )

@@ -1,6 +1,4 @@
 import 'package:coindcxclone/pages/tabs/instant_orders.dart';
-import 'package:coindcxclone/utils/enums/trans_mode.dart';
-import 'package:coindcxclone/utils/models/coin_data.dart';
 import 'package:coindcxclone/utils/models/order.dart';
 import 'package:coindcxclone/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +8,7 @@ class Orders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var orders = List.generate(10, (index) {
-      return Order(
-        CoinData.coins[0],
-        TransactionMode.buy,
-        50,
-      );
-    });
+    List<Order> orders = [];
     return DefaultTabController(
       length: 2,
       child: Scaffold(

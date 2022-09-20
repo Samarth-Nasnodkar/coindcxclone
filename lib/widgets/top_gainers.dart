@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coindcxclone/utils/models/coin_data.dart';
 import 'package:coindcxclone/widgets/coin_card.dart';
+import 'package:coindcxclone/widgets/coin_pop_up.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/models/coin.dart';
@@ -75,99 +76,10 @@ class _TopGainersState extends State<TopGainers> {
                       return GestureDetector(
                         onTap: () {
                           showBottomSheet(
+                            backgroundColor: Colors.transparent,
                             context: context,
                             builder: (ctx) {
-                              return Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white38,
-                                ),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    // crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Coin _coin = coins[index];
-                                          Investments.invens.add(
-                                            _coin,
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              duration:
-                                                  const Duration(seconds: 2),
-                                              content: Text(
-                                                '${_coin.name} Added to Investments',
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: 100,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.blue,
-                                          ),
-                                          child: const Center(
-                                            child: Text(
-                                              'BUY',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Coin _coin = coins[index];
-                                          bool removed =
-                                              Investments.invens.remove(_coin);
-                                          String message =
-                                              '${_coin.name} Removed from Investments';
-                                          if (!removed) {
-                                            message =
-                                                'You do not own any ${_coin.name}';
-                                          }
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              duration:
-                                                  const Duration(seconds: 2),
-                                              content: Text(
-                                                message,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: 100,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.red,
-                                          ),
-                                          child: const Center(
-                                            child: Text(
-                                              'SELL',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
+                              return CoinPopUp(coin: coins[index]);
                             },
                           );
                         },

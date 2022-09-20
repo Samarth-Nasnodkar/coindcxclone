@@ -1,4 +1,5 @@
 import 'package:coindcxclone/utils/models/coin.dart';
+import 'package:coindcxclone/widgets/coin_pop_up.dart';
 import 'package:coindcxclone/widgets/wl_dr.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,15 @@ class CoinsList extends StatelessWidget {
       return DataRow(cells: [
         DataCell(
           WLDataRowCoin(coin: coins[index]),
+          onTap: () {
+            showBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              builder: (context) {
+                return CoinPopUp(coin: coins[index]);
+              },
+            );
+          },
           // placeholder: true,
         ),
         DataCell(
