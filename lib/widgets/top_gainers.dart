@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coindcxclone/utils/models/coin_data.dart';
 import 'package:coindcxclone/widgets/coin_card.dart';
 import 'package:coindcxclone/widgets/coin_pop_up.dart';
 import 'package:flutter/material.dart';
-
 import '../utils/models/coin.dart';
-import '../utils/models/investments.dart';
 
 class TopGainers extends StatefulWidget {
   const TopGainers({Key? key}) : super(key: key);

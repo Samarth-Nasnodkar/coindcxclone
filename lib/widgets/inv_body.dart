@@ -1,21 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coindcxclone/utils/enums/trans_mode.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/models/coin.dart';
 import '../../utils/purchase.dart';
+import '../utils/storage_manager.dart';
 
-class InstantOrders extends StatefulWidget {
+class InvBody extends StatefulWidget {
   final List<Purchase> orders;
 
-  const InstantOrders({Key? key, required this.orders}) : super(key: key);
+  const InvBody({Key? key, required this.orders}) : super(key: key);
 
   @override
-  State<InstantOrders> createState() => _InstantOrdersState();
+  State<InvBody> createState() => _InvBodyState();
 }
 
-class _InstantOrdersState extends State<InstantOrders> {
+class _InvBodyState extends State<InvBody> {
   Stream<Coin> readCoin(String coinTag) {
     return FirebaseFirestore.instance
         .collection('coins')
@@ -116,7 +118,7 @@ class _InstantOrdersState extends State<InstantOrders> {
                               height: 10,
                             ),
                             Text(
-                              "Price ₹${order.purchasePrice}",
+                              "Price ₹${double.parse((order.purchasePrice).toStringAsFixed(2))}",
                               style: TextStyle(
                                 color:
                                     Theme.of(context).textTheme.caption?.color,
@@ -138,7 +140,8 @@ class _InstantOrdersState extends State<InstantOrders> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: " ₹${_coin.price * order.quantity}",
+                                      text:
+                                          " ₹${double.parse((_coin.price * order.quantity).toStringAsFixed(2))}",
                                       style:
                                           Theme.of(context).textTheme.bodyText2,
                                     )
@@ -148,6 +151,84 @@ class _InstantOrdersState extends State<InstantOrders> {
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            String email =
+                                FirebaseAuth.instance.currentUser!.email!;
+                            StorageManager()
+                                .addInvestment(email, order.coin, _coin.price);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 2),
+                                content: Text(
+                                  'Coin added to investments successfully',
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 100,
+                            decoration: const BoxDecoration(
+                              color: Colors.blue,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'BUY',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            String email =
+                                FirebaseAuth.instance.currentUser!.email!;
+                            bool removed = await StorageManager()
+                                .removeInvestment(
+                                    email, order.coin, order.purchasePrice);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: const Duration(seconds: 2),
+                                content: Text(
+                                  removed
+                                      ? 'Coin removed from investments successfully'
+                                      : 'You don\'t own this coin',
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 100,
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'SELL',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(10.0),

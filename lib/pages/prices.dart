@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coindcxclone/pages/tabs/all_coins.dart';
 import 'package:coindcxclone/pages/tabs/watchlist.dart';
 import 'package:coindcxclone/utils/models/coin.dart';
-import 'package:coindcxclone/utils/models/coin_data.dart';
 import 'package:coindcxclone/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 

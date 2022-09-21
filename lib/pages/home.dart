@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coindcxclone/utils/storage/local_coin_storage.dart';
-import 'package:coindcxclone/utils/models/coin.dart';
-import 'package:coindcxclone/utils/models/coin_data.dart';
 import 'package:coindcxclone/widgets/advert_card.dart';
 import 'package:coindcxclone/widgets/navigation_bar.dart';
 import 'package:coindcxclone/widgets/newly_launched.dart';
 import 'package:coindcxclone/widgets/top_gainers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../utils/coin_user.dart';
 

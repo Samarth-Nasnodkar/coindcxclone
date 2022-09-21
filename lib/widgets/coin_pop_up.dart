@@ -1,10 +1,11 @@
 import 'dart:ui';
 
+import 'package:coindcxclone/utils/storage_manager.dart';
 import 'package:coindcxclone/widgets/price_chart.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/models/coin.dart';
-import '../utils/models/investments.dart';
 
 class CoinPopUp extends StatelessWidget {
   const CoinPopUp({
@@ -47,15 +48,15 @@ class CoinPopUp extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Coin _coin = coins[index];
-                        Investments.invens.add(
-                          coin,
-                        );
+                        String email =
+                            FirebaseAuth.instance.currentUser!.email!;
+                        StorageManager()
+                            .addInvestment(email, coin.tag, coin.price);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: const Duration(seconds: 2),
+                          const SnackBar(
+                            duration: Duration(seconds: 2),
                             content: Text(
-                              '${coin.name} Added to Investments',
+                              'Coin added to investments successfully',
                             ),
                           ),
                         );
@@ -78,19 +79,18 @@ class CoinPopUp extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Coin _coin = coin;
-                        bool removed = Investments.invens.remove(_coin);
-                        String message =
-                            '${_coin.name} Removed from Investments';
-                        if (!removed) {
-                          message = 'You do not own any ${_coin.name}';
-                        }
+                      onTap: () async {
+                        String email =
+                            FirebaseAuth.instance.currentUser!.email!;
+                        bool removed = await StorageManager()
+                            .removeInvestment(email, coin.tag, coin.price);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             duration: const Duration(seconds: 2),
                             content: Text(
-                              message,
+                              removed
+                                  ? 'Coin removed from investments successfully'
+                                  : 'You don\'t own this coin',
                             ),
                           ),
                         );

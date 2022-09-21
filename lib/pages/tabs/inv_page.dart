@@ -1,5 +1,9 @@
-import 'package:coindcxclone/utils/models/investments.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coindcxclone/pages/tabs/instant_orders.dart';
+import 'package:coindcxclone/utils/investment.dart';
+import 'package:coindcxclone/widgets/inv_body.dart';
 import 'package:coindcxclone/widgets/navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/models/coin.dart';
@@ -12,90 +16,34 @@ class InvPage extends StatefulWidget {
 }
 
 class _InvPageState extends State<InvPage> {
+  Stream<List<dynamic>> readInvs() {
+    String email = FirebaseAuth.instance.currentUser!.email!;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(email)
+        .snapshots()
+        .map((event) => event.data()!['inv']);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Investments.invens.isNotEmpty
-          ? ListView.builder(
-              itemBuilder: (ctx, index) {
-                Coin _coin = Investments.invens[index];
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _coin.name,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Coin _coin = coins[index].coin;
-                            Investments.invens.add(
-                              _coin,
-                            );
-                            setState(() {});
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 80,
-                            decoration: const BoxDecoration(
-                              color: Colors.blue,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'BUY',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // Coin _coin = coins[index].coin;
-                            bool removed = Investments.invens.remove(_coin);
-                            setState(() {});
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 80,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'SELL',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              },
-              itemCount: Investments.invens.length,
-            )
-          : const Center(
-              child: Text(
-                'No Investmentes Yet!',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+      body: StreamBuilder<List<dynamic>>(
+          stream: readInvs(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: CircularProgressIndicator.adaptive(),
                 ),
-              ),
-            ),
+              );
+            }
+            List<Investment> invs =
+                snapshot.data!.map((e) => Investment.fromJSON(e)).toList();
+            return InvBody(orders: invs.map((e) => e.purchase).toList());
+          }),
       bottomNavigationBar: const DefaultNavigationBar(
         currentIndex: 3,
       ),
