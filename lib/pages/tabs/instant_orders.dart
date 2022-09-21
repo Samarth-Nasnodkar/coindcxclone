@@ -138,7 +138,8 @@ class _InstantOrdersState extends State<InstantOrders> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: " ₹${_coin.price * order.quantity}",
+                                      text:
+                                          " ₹${double.parse((order.purchasePrice * order.quantity).toStringAsFixed(2))}",
                                       style:
                                           Theme.of(context).textTheme.bodyText2,
                                     )

@@ -199,16 +199,20 @@ class _InvBodyState extends State<InvBody> {
                             bool removed = await StorageManager()
                                 .removeInvestment(
                                     email, order.coin, order.purchasePrice);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 2),
-                                content: Text(
-                                  removed
-                                      ? 'Coin removed from investments successfully'
-                                      : 'You don\'t own this coin',
+                            try {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  duration: const Duration(milliseconds: 50),
+                                  content: Text(
+                                    removed
+                                        ? 'Coin removed from investments successfully'
+                                        : 'You don\'t own this coin',
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            } on Exception catch (e) {
+                              debugPrint('Flutter Error! $e');
+                            }
                           },
                           child: Container(
                             height: 50,
