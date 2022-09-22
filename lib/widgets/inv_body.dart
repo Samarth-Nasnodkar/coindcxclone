@@ -168,7 +168,7 @@ class _InvBodyState extends State<InvBody> {
                                 .addInvestment(email, order.coin, _coin.price);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                duration: Duration(seconds: 2),
+                                duration: Duration(milliseconds: 50),
                                 content: Text(
                                   'Coin added to investments successfully',
                                 ),
@@ -193,26 +193,30 @@ class _InvBodyState extends State<InvBody> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () async {
+                          onTap: () {
                             String email =
                                 FirebaseAuth.instance.currentUser!.email!;
-                            bool removed = await StorageManager()
+                            StorageManager()
                                 .removeInvestment(
-                                    email, order.coin, order.purchasePrice);
-                            try {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  duration: const Duration(milliseconds: 50),
-                                  content: Text(
-                                    removed
-                                        ? 'Coin removed from investments successfully'
-                                        : 'You don\'t own this coin',
+                                    email, order.coin, order.purchasePrice)
+                                .then(
+                              (removed) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: const Duration(milliseconds: 50),
+                                    content: Text(
+                                      removed
+                                          ? 'Coin removed from investments successfully'
+                                          : 'You don\'t own this coin',
+                                    ),
                                   ),
-                                ),
-                              );
-                            } on Exception catch (e) {
-                              debugPrint('Flutter Error! $e');
-                            }
+                                );
+                              },
+                            ).onError(
+                              (error, stackTrace) {
+                                debugPrint('Error!! $error');
+                              },
+                            );
                           },
                           child: Container(
                             height: 50,

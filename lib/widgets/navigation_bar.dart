@@ -37,10 +37,10 @@ class DefaultNavigationBar extends StatelessWidget {
       ],
       onTap: (index) {
         if (index != 0) {
-          Navigator.pushNamed(context, labels[index]);
+          Navigator.pushReplacementNamed(context, labels[index]);
         } else {
           // Navigator.pop(context);
-          Navigator.popUntil(context, ModalRoute.withName("/"));
+          Navigator.pushReplacementNamed(context, 'home');
         }
       },
     );
